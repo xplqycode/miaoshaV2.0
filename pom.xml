@@ -47,6 +47,13 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!--mybatis插件-->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<version>2.3</version>
+		</dependency>
+
 		<!--一些常用工具包-->
 		<dependency>
 			<groupId>com.alibaba</groupId>

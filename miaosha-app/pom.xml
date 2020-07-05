@@ -10,6 +10,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>miaosha-app</artifactId>
+    <dependencies>
+        <!--这样才能使得使用到core中的数据-->
+        <dependency>
+            <groupId>com.pxu</groupId>
+            <artifactId>miaosha-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 
 </project>
