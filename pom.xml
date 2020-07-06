@@ -7,7 +7,8 @@
         <module>miaosha-core</module>
 		<module>miaosha-app</module>
 		<module>miaosha-admin</module>
-	</modules>
+        <module>miaosha-common</module>
+    </modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>

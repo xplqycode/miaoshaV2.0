@@ -3,6 +3,7 @@ package com.pxu.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.pxu.WebApplication;
 import com.pxu.domain.SeckillProduct;
+import com.pxu.redis.RedisStringCache;
 import com.pxu.service.SeckillProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +23,8 @@ public class SeckillProductServiceImplTest {
     @Autowired
     SeckillProductService productService;
 
+    @Autowired
+    RedisStringCache stringCache;
     @Test
     void list() {
         System.out.println(productService);
@@ -30,5 +33,11 @@ public class SeckillProductServiceImplTest {
             System.out.println("null");
         }
         System.out.println(JSONObject.toJSONString(list));
+    }
+
+    @Test
+    void testRedis(){
+        stringCache.set("testKey", "ceshi", 10);
+        System.out.println(stringCache.get("testKey"));
     }
 }
