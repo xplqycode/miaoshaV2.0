@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface SeckillProductService {
 
-    List<SeckillProduct> list();
+    List<SeckillProduct> getAll();
+
+    SeckillProduct getOne(long id);
 
 }

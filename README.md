@@ -69,3 +69,20 @@ CREATE TABLE `seckill_order` (
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='秒杀成功明细表';
 ~~~
 - 用户信息表
+
+## 一些坑：
+springboot配置解析jsp视图，尚未学习模板技术，待完善
+http://www.bjpowernode.com/tutorial_springboot/826.html
+<!--处理jsp-->
+		<resources>
+			<resource>
+				<!--源文件位置-->
+				<directory>src/main/webapp</directory>
+				<!--编译到META-INF/resources，该目录不能随便写-->
+				<targetPath>META-INF/resources</targetPath>
+				<includes>
+					<!--要把哪些文件编译过去，**表示webapp目录及子目录，*.*表示所有-->
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+		</resources>

@@ -22,7 +22,12 @@ public class SeckillProductServiceImpl implements SeckillProductService {
     SeckillProductsMapper productsMapper;
 
     @Override
-    public List<SeckillProduct> list() {
+    public List<SeckillProduct> getAll() {
         return productsMapper.selectList(null);
+    }
+
+    @Override
+    public SeckillProduct getOne(long id) {
+        return productsMapper.selectById(id);
     }
 }

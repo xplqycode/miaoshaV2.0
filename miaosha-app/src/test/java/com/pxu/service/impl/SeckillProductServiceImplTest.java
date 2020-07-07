@@ -28,7 +28,7 @@ public class SeckillProductServiceImplTest {
     @Test
     void list() {
         System.out.println(productService);
-        List<SeckillProduct> list = productService.list();
+        List<SeckillProduct> list = productService.getAll();
         if(list == null){
             System.out.println("null");
         }
