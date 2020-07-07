@@ -1,6 +1,7 @@
 package com.pxu.service;
 
 import com.pxu.domain.SeckillProduct;
+import com.pxu.dto.Exposer;
 
 import java.util.List;
 
@@ -23,4 +24,10 @@ public interface SeckillService {
      */
     List<SeckillProduct> getAllFromDb();
 
+    /**
+     * 根据id查询是否秒杀已经开启
+     * @param seckillId
+     * @return
+     */
+    Exposer exportSeckillUrl(Long seckillId);
 }

@@ -1,10 +1,10 @@
 package com.pxu.controller;
 
 import com.pxu.domain.SeckillProduct;
+import com.pxu.dto.Exposer;
+import com.pxu.dto.SeckillResult;
 import com.pxu.service.SeckillService;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,21 +59,21 @@ public class SeckillController {
         }
         return "detail";
     }
-//
-//    @ResponseBody
-//    @RequestMapping(value = "/{seckillId}/exposer",
-//            method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-//    public SeckillResult<Exposer> exposer(@PathVariable("seckillId") Long seckillId) {
-//        SeckillResult<Exposer> result;
-//        try {
-//            Exposer exposer = seckillService.exportSeckillUrl(seckillId);
-//            result = new SeckillResult<Exposer>(true, exposer);
-//        } catch (Exception e) {
-//            logger.error(e.getMessage(), e);
-//            result = new SeckillResult<Exposer>(false, e.getMessage());
-//        }
-//        return result;
-//    }
+
+    @ResponseBody
+    @RequestMapping(value = "/{seckillId}/exposer",
+            method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public SeckillResult<Exposer> exposer(@PathVariable("seckillId") Long seckillId) {
+        SeckillResult<Exposer> result;
+        try {
+            Exposer exposer = seckillService.exportSeckillUrl(seckillId);
+            result = new SeckillResult<Exposer>(true, exposer);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            result = new SeckillResult<Exposer>(false, e.getMessage());
+        }
+        return result;
+    }
 //
 //    @RequestMapping(value = "/{seckillId}/{md5}/execution",
 //            method = RequestMethod.POST,

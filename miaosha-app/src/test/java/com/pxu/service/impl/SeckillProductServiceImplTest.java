@@ -21,7 +21,7 @@ import java.util.List;
 public class SeckillProductServiceImplTest {
 
     @Autowired
-    SeckillProductService productService;
+    SeckillProductServiceImpl productService;
 
     @Autowired
     RedisStringCache stringCache;
@@ -39,5 +39,15 @@ public class SeckillProductServiceImplTest {
     void testRedis(){
         stringCache.set("testKey", "ceshi", 10);
         System.out.println(stringCache.get("testKey"));
+    }
+
+    @Test
+    void testRedisString2Obj(){
+        productService.setAndGetProductInfo(1000);
+    }
+
+    @Test
+    void testRedisString2Obj2(){
+        System.out.println(JSONObject.toJSONString(productService.findById(1000)));
     }
 }

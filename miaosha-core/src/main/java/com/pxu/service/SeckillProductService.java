@@ -13,6 +13,6 @@ public interface SeckillProductService {
 
     List<SeckillProduct> getAll();
 
-    SeckillProduct getOne(long id);
+    SeckillProduct findById(long id);
 
 }
