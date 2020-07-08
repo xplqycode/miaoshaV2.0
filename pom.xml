@@ -2,7 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
+
+    <groupId>com.pxu</groupId>
+    <artifactId>springboot-miaosha-v2</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>springboot-miaosha-v2</name>
+
+    <!--子模块-->
     <modules>
         <module>miaosha-core</module>
         <module>miaosha-app</module>
@@ -15,11 +21,7 @@
         <version>2.3.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.pxu</groupId>
-    <artifactId>springboot-miaosha-v2</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>springboot-miaosha-v2</name>
-    <description>springboot-miaosha-2.0</description>
+
 
     <properties>
         <java.version>1.8</java.version>
