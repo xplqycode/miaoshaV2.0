@@ -5,6 +5,7 @@ import com.pxu.WebApplication;
 import com.pxu.domain.SeckillProduct;
 import com.pxu.redis.RedisStringCache;
 import com.pxu.service.SeckillProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.List;
  * @author xupeng3@corp.netease.com
  * @date 2020/7/5 22:13
  */
+@Slf4j
 @SpringBootTest(classes = WebApplication.class)
 public class SeckillProductServiceImplTest {
 
@@ -49,5 +51,11 @@ public class SeckillProductServiceImplTest {
     @Test
     void testRedisString2Obj2(){
         System.out.println(JSONObject.toJSONString(productService.findById(1000)));
+    }
+
+    @Test
+    void testLog(){
+        log.info("日志");
+        log.error("ceshi");
     }
 }
