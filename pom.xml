@@ -6,7 +6,8 @@
     <groupId>com.pxu</groupId>
     <artifactId>springboot-miaosha-v2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>springboot-miaosha-v2</name>
+    <packaging>jar</packaging>
+    <!--jar是支持jsp？，本地可以支持，不知道服务器上部署后还支持支持-->
 
     <!--子模块-->
     <modules>

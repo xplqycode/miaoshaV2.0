@@ -23,9 +23,16 @@ public class SeckillOrder {
 
     private long userId;
 
+    private long userPhone;
+
     private Integer state;
 
     private Date createTime;
 
     private Date updateTime;
+
+    public SeckillOrder(long seckillId, long userPhone) {
+        this.orderId = seckillId;
+        this.userPhone = userPhone;
+    }
 }

@@ -43,7 +43,7 @@ public class SeckillController {
 
     @ResponseBody
     @RequestMapping("/findById")
-    public SeckillProduct findById(@RequestParam("id") Long id) {
+    public SeckillProduct findById(@RequestParam(value = "id", required = true) Long id) {
         return seckillService.getOneFromDb(id);
     }
 
@@ -101,10 +101,10 @@ public class SeckillController {
 //        }
 //    }
 //
-//    @ResponseBody
-//    @GetMapping(value = "/time/now")
-//    public SeckillResult<Long> time() {
-//        Date now = new Date();
-//        return new SeckillResult(true, now.getTime());
-//    }
+    @ResponseBody
+    @GetMapping(value = "/time/now")
+    public SeckillResult<Long> time() {
+        Date now = new Date();
+        return new SeckillResult(true, now.getTime());
+    }
 }

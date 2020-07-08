@@ -2,9 +2,12 @@ package com.pxu.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pxu.constant.SeckillRedisConstant;
+import com.pxu.domain.SeckillOrder;
 import com.pxu.domain.SeckillProduct;
+import com.pxu.persistence.SeckillOrderMapper;
 import com.pxu.persistence.SeckillProductsMapper;
 import com.pxu.redis.RedisStringCache;
+import com.pxu.redis.constants.ExpireTimeConstant;
 import com.pxu.service.SeckillProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +28,9 @@ public class SeckillProductServiceImpl implements SeckillProductService {
     SeckillProductsMapper productsMapper;
 
     @Autowired
+    SeckillOrderMapper orderMapper;
+
+    @Autowired
     RedisStringCache stringCache;
 
     @Override
@@ -40,7 +46,7 @@ public class SeckillProductServiceImpl implements SeckillProductService {
             SeckillProduct seckillProductFromDb = productsMapper.selectById(id);
             if (seckillProductFromDb != null) {
                 log.info("数据库查到了");
-                stringCache.set(SeckillRedisConstant.getSeckillKey(id), JSONObject.toJSONString(seckillProductFromDb), 10);
+                stringCache.set(SeckillRedisConstant.getSeckillKey(id), JSONObject.toJSONString(seckillProductFromDb), ExpireTimeConstant.ONE_MINUTE_EXPIRETIME);
                 log.info("放进去redis");
                 return seckillProductFromDb;
             }
@@ -56,6 +62,12 @@ public class SeckillProductServiceImpl implements SeckillProductService {
         }
 
         return seckillProduct;
+    }
+
+    @Override
+    public int insertSuccessKilled(long seckillId, long userPhone) {
+        Integer insert = orderMapper.insert(new SeckillOrder(seckillId, userPhone));
+        return insert;
     }
 
     public void setAndGetProductInfo(long id) {

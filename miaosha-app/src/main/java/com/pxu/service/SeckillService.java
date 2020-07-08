@@ -2,6 +2,10 @@ package com.pxu.service;
 
 import com.pxu.domain.SeckillProduct;
 import com.pxu.dto.Exposer;
+import com.pxu.dto.SeckillExecution;
+import com.pxu.exception.RepeatKillException;
+import com.pxu.exception.SeckillCloseException;
+import com.pxu.exception.SeckillException;
 
 import java.util.List;
 
@@ -11,7 +15,7 @@ import java.util.List;
  */
 public interface SeckillService {
     /**
-     * 根据商品id查找商品
+     * 根据商品id查找商品,联合缓存和数据库查找
      *
      * @param id
      * @return
@@ -30,4 +34,17 @@ public interface SeckillService {
      * @return
      */
     Exposer exportSeckillUrl(Long seckillId);
+
+    /**
+     * 执行秒杀操作
+     * @param seckillId
+     * @param userPhone
+     * @param md5
+     * @return
+     * @throws SeckillException
+     * @throws RepeatKillException
+     * @throws SeckillCloseException
+     */
+    SeckillExecution executeSeckill(long seckillId, long userPhone, String md5)
+            throws SeckillException, RepeatKillException, SeckillCloseException;
 }
