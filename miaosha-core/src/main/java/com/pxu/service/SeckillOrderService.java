@@ -9,7 +9,6 @@ import java.util.List;
  * @author pxu31@qq.com
  * @date 2020/7/9 21:18
  */
-@Service
 public interface SeckillOrderService {
     /**
      * 插入用户购买订单

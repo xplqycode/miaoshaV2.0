@@ -3,13 +3,13 @@ package com.pxu.service;
 import com.pxu.domain.SeckillProduct;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**处理数据库数据
  * @author xupeng3@corp.netease.com
  * @date 2020/7/5 22:09
  */
-@Service
 public interface SeckillProductService {
 
     /**
@@ -25,4 +25,11 @@ public interface SeckillProductService {
      */
     SeckillProduct findById(long id);
 
+    /**
+     * 减少订单数量
+     * @param seckillId
+     * @param now
+     * @return
+     */
+    int reduceNumber(long seckillId, Date now);
 }

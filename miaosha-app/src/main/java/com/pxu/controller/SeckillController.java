@@ -1,10 +1,12 @@
 package com.pxu.controller;
 
+import com.pxu.domain.SeckillProduct;
 import com.pxu.dto.Exposer;
 import com.pxu.dto.SeckillResult;
 import com.pxu.service.SeckillService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

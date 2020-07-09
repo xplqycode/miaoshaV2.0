@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,6 +61,11 @@ public class SeckillProductServiceImpl implements SeckillProductService {
         }
 
         return seckillProduct;
+    }
+
+    @Override
+    public int reduceNumber(long seckillId, Date now) {
+        return 0;
     }
 
     public void setAndGetProductInfo(long id) {

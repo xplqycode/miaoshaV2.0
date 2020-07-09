@@ -1,5 +1,6 @@
 package com.pxu.dto;
 
+import com.pxu.domain.SeckillOrder;
 import com.pxu.enums.SeckillStateEnum;
 import lombok.Data;
 

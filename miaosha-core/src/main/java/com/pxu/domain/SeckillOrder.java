@@ -1,5 +1,6 @@
 package com.pxu.domain;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
@@ -33,6 +34,7 @@ public class SeckillOrder {
     private String orderId;
 
     //用户账号
+    @TableField(value = "passport")
     private String passport;
 
     //秒杀的商品id

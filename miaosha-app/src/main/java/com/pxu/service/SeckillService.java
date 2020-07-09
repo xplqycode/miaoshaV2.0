@@ -1,10 +1,12 @@
 package com.pxu.service;
 
+import com.pxu.domain.SeckillProduct;
 import com.pxu.dto.Exposer;
 import com.pxu.dto.SeckillExecution;
 import com.pxu.exception.RepeatKillException;
 import com.pxu.exception.SeckillCloseException;
 import com.pxu.exception.SeckillException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
