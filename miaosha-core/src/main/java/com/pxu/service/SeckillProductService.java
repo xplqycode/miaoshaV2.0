@@ -28,8 +28,7 @@ public interface SeckillProductService {
     /**
      * 减少订单数量
      * @param seckillId
-     * @param now
      * @return
      */
-    int reduceNumber(long seckillId, Date now);
+    int reduceNumber(long seckillId);
 }

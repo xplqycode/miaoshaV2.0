@@ -70,9 +70,10 @@ public class SeckillProductServiceImplTest {
 
     @Test
     void testMapper(){
-        List<SeckillProduct> seckillProducts = productsMapper.selectList(null);
-        System.out.println(JSONObject.toJSONString(seckillProducts));
-        Integer insert = orderMapper.insert(new SeckillOrder().setPassport("pxu31@qq.com").setProductId(1123L).setOrderId("sadasd").setStatus(1).setCreateTime(new Date()));
-        System.out.println(insert);
+//        List<SeckillProduct> seckillProducts = productsMapper.selectList(null);
+//        System.out.println(JSONObject.toJSONString(seckillProducts));
+//        Integer insert = orderMapper.insert(new SeckillOrder().setPassport("pxu31@qq.com").setProductId(1123L).setOrderId("sadasd").setStatus(1).setCreateTime(new Date()));
+//        System.out.println(insert);
+        productsMapper.reduceOneProduct(1000);
     }
 }
