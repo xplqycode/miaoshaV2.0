@@ -86,6 +86,9 @@ VALUES
 (1003,'200元秒杀红米note',100,'2018-05-10 15:31:53','2018-05-10 15:31:53','2018-05-10 15:31:53',0,now());
 ~~~
 
+**注意点**
+- NOT NULL的数据插入时不得为空，包括create_time
+
 ## 一些坑：
 - springboot配置解析jsp视图，尚未学习模板技术，待完善
    http://www.bjpowernode.com/tutorial_springboot/826.html
