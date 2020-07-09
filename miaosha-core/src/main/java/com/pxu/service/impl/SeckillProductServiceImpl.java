@@ -27,8 +27,6 @@ public class SeckillProductServiceImpl implements SeckillProductService {
     @Autowired
     SeckillProductsMapper productsMapper;
 
-    @Autowired
-    SeckillOrderMapper orderMapper;
 
     @Autowired
     RedisStringCache stringCache;
@@ -62,12 +60,6 @@ public class SeckillProductServiceImpl implements SeckillProductService {
         }
 
         return seckillProduct;
-    }
-
-    @Override
-    public int insertSuccessKilled(long seckillId, long userPhone) {
-        Integer insert = orderMapper.insert(new SeckillOrder(seckillId, userPhone));
-        return insert;
     }
 
     public void setAndGetProductInfo(long id) {

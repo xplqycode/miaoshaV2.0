@@ -1,6 +1,5 @@
 package com.pxu.service;
 
-import com.pxu.domain.SeckillProduct;
 import com.pxu.dto.Exposer;
 import com.pxu.dto.SeckillExecution;
 import com.pxu.exception.RepeatKillException;

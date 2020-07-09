@@ -1,7 +1,6 @@
 package com.pxu.persistence;
 
 import com.pxu.domain.SeckillProduct;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 /**

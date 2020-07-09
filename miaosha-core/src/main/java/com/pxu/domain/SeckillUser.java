@@ -13,36 +13,31 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 秒杀系统订单表(SeckillOrder)表实体类
+ * 秒杀成功明细表(SeckillUser)表实体类
  *
  * @author makejava
- * @since 2020-07-09 21:01:37
+ * @since 2020-07-09 21:02:30
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("seckill_order")
-public class SeckillOrder {
-
+@TableName("seckill_user")
+public class SeckillUser {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    //订单id
-    private String orderId;
-
-    //用户账号
+    //通行证
     private String passport;
 
-    //秒杀的商品id
-    private Long productId;
+    //密码
+    private String password;
 
-    //状态标示：-1=无效，0=成功
-    private Integer status;
+    //手机号码
+    private Long phoneNumber;
 
     private Date createTime;
 
     private Date updateTime;
-
 }

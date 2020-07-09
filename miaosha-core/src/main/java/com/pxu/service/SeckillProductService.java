@@ -9,17 +9,20 @@ import java.util.List;
  * @author xupeng3@corp.netease.com
  * @date 2020/7/5 22:09
  */
+@Service
 public interface SeckillProductService {
 
-    List<SeckillProduct> getAll();
-
-    SeckillProduct findById(long id);
-
     /**
-     * 记录购买订单
-     * @param seckillId
-     * @param userPhone
+     * 查询所有商品信息
      * @return
      */
-    int insertSuccessKilled(long seckillId, long userPhone);
+    List<SeckillProduct> getAll();
+
+    /**
+     * 通过id来查询商品信息结合缓存查询
+     * @param id
+     * @return
+     */
+    SeckillProduct findById(long id);
+
 }

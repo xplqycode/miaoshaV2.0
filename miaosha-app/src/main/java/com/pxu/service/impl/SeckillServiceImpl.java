@@ -1,6 +1,5 @@
 package com.pxu.service.impl;
 
-import com.pxu.domain.SeckillProduct;
 import com.pxu.dto.Exposer;
 import com.pxu.dto.SeckillExecution;
 import com.pxu.enums.SeckillStateEnum;
@@ -11,7 +10,6 @@ import com.pxu.service.SeckillProductService;
 import com.pxu.service.SeckillService;
 import com.pxu.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
