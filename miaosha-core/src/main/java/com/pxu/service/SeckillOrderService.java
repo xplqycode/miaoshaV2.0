@@ -25,4 +25,12 @@ public interface SeckillOrderService {
      * @return
      */
     List<SeckillOrder> getSeckillOrders(int offset, int limit);
+
+    /**
+     * 查询订单
+     * @param seckillId
+     * @param passport
+     * @return
+     */
+    SeckillOrder queryByIdAndPassport(long seckillId, String passport);
 }

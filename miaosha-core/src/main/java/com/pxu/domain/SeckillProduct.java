@@ -27,7 +27,7 @@ import java.util.Date;
 public class SeckillProduct {
     //商品id
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Long seckillId;
 
     //商品名称
     private String name;
@@ -44,7 +44,7 @@ public class SeckillProduct {
     //创建时间
     private Date createTime;
 
-    //创建时间
+    //更新时间
     private Date updateTime;
 
     //版本号

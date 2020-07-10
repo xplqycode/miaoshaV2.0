@@ -5,10 +5,9 @@ import com.pxu.enums.SeckillStateEnum;
 import lombok.Data;
 
 /**
- * 封装执行秒杀后的结果
- *
- * @auther TyCoding
- * @date 2018/10/8
+ * 一些异常
+ * @author pxu31@qq.com
+ * @date 2020/7/6 21:13
  */
 @Data
 public class SeckillExecution {

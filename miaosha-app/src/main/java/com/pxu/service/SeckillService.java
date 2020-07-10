@@ -21,7 +21,7 @@ public interface SeckillService {
      * @param id
      * @return
      */
-    SeckillProduct getOneFromDb(long id);
+    SeckillProduct findSeckillProduct(long id);
 
     /**
      * 返回数据库所有商品信息
@@ -32,7 +32,7 @@ public interface SeckillService {
     /**
      * 根据id查询是否秒杀已经开启
      * @param seckillId
-     * @return
+     * @return 秒杀结果dto
      */
     Exposer exportSeckillUrl(Long seckillId);
 
