@@ -32,12 +32,18 @@ public class SeckillOrderServiceImpl implements SeckillOrderService {
         //插入提现记录表
         String curTime = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
         String orderId = curTime + stringCache.initOrIncrement(curTime, 1, 2);
-        return orderMapper.insert(new SeckillOrder()
-                .setProductId(seckillId)
-                .setPassport(passport)
-                .setOrderId(orderId)
-                .setStatus(1)
-                .setCreateTime(new Date()));
+        int rtn = 0;
+        try {
+            rtn = orderMapper.insert(new SeckillOrder()
+                    .setProductId(seckillId)
+                    .setPassport(passport)
+                    .setOrderId(orderId)
+                    .setStatus(1)
+                    .setCreateTime(new Date()));
+        } catch (Exception e) {
+            log.info("重复秒杀，product_id={}, passport={}", seckillId, passport);
+        }
+        return rtn;
     }
 
     @Override

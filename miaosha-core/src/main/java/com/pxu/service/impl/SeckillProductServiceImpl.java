@@ -65,7 +65,7 @@ public class SeckillProductServiceImpl implements SeckillProductService {
 
     @Override
     public int reduceNumber(long seckillId) {
-        return 0;
+        return productsMapper.reduceOneProduct(seckillId);
     }
 
     public void setAndGetProductInfo(long id) {
