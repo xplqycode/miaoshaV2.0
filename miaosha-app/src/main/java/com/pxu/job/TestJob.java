@@ -13,5 +13,6 @@ public class TestJob implements SimpleJob {
     @Override
     public void execute(ShardingContext shardingContext) {
         log.info("我执行了");
+        log.info("测试多分支开发");
     }
 }
