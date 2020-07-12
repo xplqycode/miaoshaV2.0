@@ -21,7 +21,7 @@
                    max-retries="${es.job.zk.max.retries}"/>
 
     <job:simple id="NewCommentHotListJob"
-                class="com.pxu.job.TestJob"
+                class="com.pxu.job.LoadHotSeckillProducsJob"
                 registry-center-ref="esJobRegCenter"
                 cron="0 0/1 * * * ?"
                 sharding-total-count="1"

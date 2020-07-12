@@ -9,10 +9,9 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2020/7/12 9:34
  */
 @Slf4j
-public class TestJob implements SimpleJob {
+public class LoadHotSeckillProducsJob implements SimpleJob {
     @Override
     public void execute(ShardingContext shardingContext) {
-        log.info("我执行了");
-        log.info("测试多分支开发");
+        //执行定时加载hot商品信息到缓存中
     }
 }
