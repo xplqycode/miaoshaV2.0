@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class SeckillController {
     }
 
     @RequestMapping("/list")
-    public String findSeckillList(Model model) {
+    public String findSeckillList(Model model, HttpServletRequest request) {
         List<SeckillProduct> list = seckillService.getAllFromDb();
         model.addAttribute("list", list);
         return "list";

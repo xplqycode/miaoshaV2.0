@@ -30,8 +30,24 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h3 class="modal-title text-center">
-						<span class="glyphicon glyphicon-phone"></span>秒杀电话：
+						<span class="glyphicon glyphicon-phone"></span>请先登录：
 					</h3>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-8 col-xs-offset-2">
+							<input type="text" name="passport" id="passportKey"
+								   placeholder="passport" class="form-control" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-8 col-xs-offset-2">
+							<input type="text" name="password" id="passwordKey"
+								   placeholder="password" class="form-control" />
+						</div>
+					</div>
 				</div>
 				<div class="modal-body">
 					<div class="row">

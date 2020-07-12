@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:reg="http://www.dangdang.com/schema/ddframe/reg"
+       xmlns:job="http://www.dangdang.com/schema/ddframe/job"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.dangdang.com/schema/ddframe/reg
+                        http://www.dangdang.com/schema/ddframe/reg/reg.xsd
+                        http://www.dangdang.com/schema/ddframe/job
+                        http://www.dangdang.com/schema/ddframe/job/job.xsd">
+
+    <!--配置zk注册中心-->
+    <reg:zookeeper id="esJobRegCenter"
+                   server-lists="${es.job.zk.connect}"
+                   namespace="esjob-news-weixinmini"
+                   connection-timeout-milliseconds="${es.job.zk.connection.timeout}"
+                   session-timeout-milliseconds="${es.job.zk.session.timeout}"
+                   base-sleep-time-milliseconds="${es.job.zk.base.sleep.time}"
+                   max-sleep-time-milliseconds="${es.job.zk.max.sleep.time}"
+                   max-retries="${es.job.zk.max.retries}"/>
+
+    <job:simple id="NewCommentHotListJob"
+                class="com.pxu.job.TestJob"
+                registry-center-ref="esJobRegCenter"
+                cron="0 0/1 * * * ?"
+                sharding-total-count="1"
+                disabled="${es.job.disabled}"
+                overwrite="true"/>
+
+
+</beans>

@@ -118,13 +118,25 @@ var seckill = {
 				})
 				$('#killPhoneBtn').click(function() {
 					var inputPhone = $('#killphoneKey').val();
+					var inputPssport = $('#passportKey').val();
+					var inputPassword = $('#passpordKey').val();
 					console.log('inputPhone='+inputPhone);//TODO
+					console.log('inputPssport='+inputPssport);//TODO
+					console.log('inputPassword='+inputPassword);//TODO
 					if (seckill.validatePhone(inputPhone)) {//如果验证通过
 						// 电话写入cookie
 						$.cookie('killPhone', inputPhone, {
 							expires : 7,//有效期
 							path : '/seckill' //只在此路径下有效
 						});
+                        $.cookie('pssport', inputPssport, {
+                            expires : 7,//有效期
+                            path : '/seckill' //只在此路径下有效
+                        });
+                        $.cookie('password', inputPassword, {
+                            expires : 7,//有效期
+                            path : '/seckill' //只在此路径下有效
+                        });
 						// 刷新页面
 						window.location.reload();//会重新走一遍init
 					} else {
