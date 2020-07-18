@@ -28,8 +28,8 @@ public class SeckillProductServiceImplTest {
 //    @Autowired
 //    SeckillProductService productService;
 //
-//    @Autowired
-//    RedisStringCache stringCache;
+    @Autowired
+    RedisStringCache stringCache;
 //    @Test
 //    void list() {
 //        System.out.println(productService);
@@ -75,5 +75,13 @@ public class SeckillProductServiceImplTest {
 //        Integer insert = orderMapper.insert(new SeckillOrder().setPassport("pxu31@qq.com").setProductId(1123L).setOrderId("sadasd").setStatus(1).setCreateTime(new Date()));
 //        System.out.println(insert);
         productsMapper.reduceOneProduct(1000);
+    }
+
+    @Test
+    void testRedisInitOrIncr(){
+        System.out.println(stringCache.get("foo"));
+        stringCache.initOrIncrement("pxytest", 1, 20);
+        String pxutest = stringCache.get("pxutest");
+        System.out.println(pxutest);
     }
 }

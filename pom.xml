@@ -6,7 +6,7 @@
     <groupId>com.pxu</groupId>
     <artifactId>springboot-miaosha-v2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <!--jar是支持jsp？，本地可以支持，不知道服务器上部署后还支持支持-->
 
     <!--子模块-->
@@ -148,7 +148,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.pxu.WebApplication</mainClass>
+                </configuration>
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>repackage</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
             </plugin>
+
         </plugins>
         <!--处理jsp静态资源的打包【重要】-->
         <resources>
@@ -161,6 +172,16 @@
                     <!--要把哪些文件编译过去，**表示webapp目录及子目录，*.*表示所有-->
                     <include>**/*.*</include>
                 </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.tld</include>
+                </includes>
+                <filtering>false</filtering>
             </resource>
         </resources>
     </build>

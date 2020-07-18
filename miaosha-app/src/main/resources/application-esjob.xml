@@ -13,7 +13,7 @@
     <!--配置zk注册中心-->
     <reg:zookeeper id="esJobRegCenter"
                    server-lists="${es.job.zk.connect}"
-                   namespace="esjob-news-weixinmini"
+                   namespace="esjob-seckill-loadSeckillHot"
                    connection-timeout-milliseconds="${es.job.zk.connection.timeout}"
                    session-timeout-milliseconds="${es.job.zk.session.timeout}"
                    base-sleep-time-milliseconds="${es.job.zk.base.sleep.time}"
