@@ -18,6 +18,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * 主要用于商品表的信息处理
+ *
  * @author xupeng3@corp.netease.com
  * @date 2020/7/5 22:10
  */

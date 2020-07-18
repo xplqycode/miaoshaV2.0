@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
+ * 用户信息表
+ *
  * @author pxu31@qq.com
  * @date 2020/7/9 21:19
  */
