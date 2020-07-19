@@ -110,30 +110,4 @@ public abstract class AbstractRedisCache {
         }
     }
 
-    public boolean hincr(String key, String hashKey, long count) {
-        if (StringUtils.isEmpty(hashKey) || maybeExpired(key)) {
-            return false;
-        }
-        try {
-            redisTemplate.opsForHash().increment(key, hashKey, count);
-            return true;
-        } catch (Exception e) {
-            log.error("getObject error", e);
-            return false;
-        }
-    }
-
-    public boolean hset(String key, String hashKey, String value) {
-        if (StringUtils.isEmpty(hashKey) || maybeExpired(key)) {
-            return false;
-        }
-        try {
-            redisTemplate.opsForHash().put(key, hashKey, value);
-            return true;
-        } catch (Exception e) {
-            log.error("getObject error", e);
-            return false;
-        }
-    }
-
 }

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * 基础结构元素k v time
+ *
  * @author pxu31@qq.com
  * @date 2020/7/6 8:57
  */

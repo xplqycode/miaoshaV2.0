@@ -25,8 +25,8 @@ import java.util.List;
 @SpringBootTest(classes = WebApplication.class)
 public class SeckillProductServiceImplTest {
 
-//    @Autowired
-//    SeckillProductService productService;
+    @Autowired
+    SeckillProductService productService;
 //
     @Autowired
     RedisStringCache stringCache;
@@ -80,8 +80,16 @@ public class SeckillProductServiceImplTest {
     @Test
     void testRedisInitOrIncr(){
         System.out.println(stringCache.get("foo"));
-        stringCache.initOrIncrement("pxytest2", 1, 1);
-        String pxutest = stringCache.get("pxutest");
+        System.out.println(stringCache.initOrIncrement("pxytest2", 1L, 10));
+        System.out.println(stringCache.initOrIncrement("pxytest2", 1L, 10));
+        System.out.println(stringCache.initOrIncrement("pxytest2", 1L, 10));
+        System.out.println(stringCache.initOrIncrement("pxytest2", 1L, 10));
+        String pxutest = stringCache.get("pxutest2");
         System.out.println(pxutest);
+    }
+
+    @Test
+    void testFindByRedisAndDb(){
+        productService.findById(1000L);
     }
 }

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class RedisStringCache extends AbstractRedisCache implements StringCache {
 
     /**
-     * 直接封装好的一个方法，
+     * 直接封装好的一个方法，处理缓存和数据库的读取逻辑
      * @param key
      * @param handler
      * @return
@@ -32,10 +32,12 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
         try {
             String result = redisTemplate.opsForValue().get(key);
             if (result != null) {
+                log.info("缓存查到了");
                 return result;
             } else {
                 result = handler.getCallback().excute();
                 if (result != null) {
+                    log.info("db查到了设置缓存");
                     redisTemplate.opsForValue().set(key, result, handler.getTimeoutSeconds(), TimeUnit.SECONDS);
                 }
             }
@@ -46,6 +48,12 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
         }
     }
 
+    /**
+     * 设置一个kv
+     * @param key
+     * @param value
+     * @param timeoutSeconds
+     */
     @Override
     public void set(String key, String value, long timeoutSeconds) {
         if (StringUtils.isBlank(value)) {
@@ -55,7 +63,6 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
             redisTemplate.opsForValue().set(key, value, timeoutSeconds, TimeUnit.SECONDS);
         } catch (Exception e) {
             log.error("缓存异常 key {} {} ", key, value, e);
-            cacheExceptionHandler.handle(e, key);
         }
     }
 
@@ -83,13 +90,7 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
             redisTemplate.opsForValue().increment(key, i);
         } catch (Exception e) {
             log.error("缓存异常", e);
-            cacheExceptionHandler.handle(e, key);
         }
-    }
-
-    @Override
-    public long incrementAndGet(String key, int i) {
-        return redisTemplate.opsForValue().increment(key, i);
     }
 
     @Override
@@ -110,7 +111,6 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
             return redisTemplate.opsForValue().get(key);
         } catch (Exception e) {
             log.error("缓存异常 key {} ", key, e);
-            cacheExceptionHandler.handle(e, key);
         }
         return null;
     }
@@ -128,83 +128,7 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
     }
 
     @Override
-    public long lpush(String key, String value) {
-        return redisTemplate.opsForList().leftPush(key, value);
-    }
-
-    @Override
-    public void ltrim(String key, long start, long end) {
-        redisTemplate.opsForList().trim(key, start, end);
-    }
-
-    @Override
-    public String rpop(String key) {
-        return redisTemplate.opsForList().rightPop(key);
-    }
-
-    @Override
-    public List<String> lrange(String key, long start, long stop) {
-        return redisTemplate.opsForList().range(key, start, stop);
-    }
-
-    @Override
-    public Set<String> reverseRange(String key, long start, long end) {
-        return redisTemplate.opsForZSet().reverseRange(key, start, end);
-    }
-
-    @Override
-    public Set<ZSetOperations.TypedTuple<String>> reverseRangeWithScores(String key, long start, long end) {
-        return redisTemplate.opsForZSet().reverseRangeWithScores(key, start, end);
-    }
-
-    @Override
     public boolean zAdd(String key, String value, double score) {
         return redisTemplate.opsForZSet().add(key, value, score);
-    }
-
-    @Override
-    public Long hicr(String key, String hashKey, long delta) {
-        return redisTemplate.opsForHash().increment(key, hashKey, delta);
-    }
-
-    @Override
-    public Map<Object, Object> hgetAll(String key) {
-        return redisTemplate.opsForHash().entries(key);
-    }
-
-    @Override
-    public void hPutAll(String key, Map<String, String> datas) {
-        redisTemplate.opsForHash().putAll(key, datas);
-    }
-
-    @Override
-    public void zCutByScoreDesc(String cacheKey, int length) {
-        int maxLength = length;
-        long existsLength = redisTemplate.opsForZSet().zCard(cacheKey);
-        if (existsLength <= maxLength) {
-            return;
-        }
-        //按照从小到大排名删除前面几个（分数低的）
-        redisTemplate.opsForZSet().removeRange(cacheKey, 0, existsLength - maxLength - 1);
-    }
-
-    @Override
-    public Long zrem(String cacheKey, String item) {
-        return redisTemplate.opsForZSet().remove(cacheKey, item);
-    }
-
-    @Override
-    public Long zCard(String cacheKey) {
-        return redisTemplate.opsForZSet().zCard(cacheKey);
-    }
-
-    @Override
-    public Double zScore(String cacheKey, String itemKey) {
-        return redisTemplate.opsForZSet().score(cacheKey, itemKey);
-    }
-
-    @Override
-    public long lRemove(String key, long count, Object value) {
-        return redisTemplate.opsForList().remove(key, count, value);
     }
 }
