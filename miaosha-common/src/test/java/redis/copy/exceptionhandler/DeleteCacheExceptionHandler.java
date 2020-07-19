@@ -1,12 +1,12 @@
-package com.pxu.redis.exceptionhandler;
+package redis.copy.exceptionhandler;
 
 
-import com.pxu.redis.CacheExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
+import redis.copy.CacheExceptionHandler;
 
 import javax.annotation.PostConstruct;
 import java.util.concurrent.Executors;
@@ -14,9 +14,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by wangmaocheng on 2018/4/20.
- */
+
 @Slf4j
 @Component
 public class DeleteCacheExceptionHandler implements CacheExceptionHandler, Runnable {

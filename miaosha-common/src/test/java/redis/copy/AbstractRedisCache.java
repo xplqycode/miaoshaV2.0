@@ -1,4 +1,4 @@
-package com.pxu.redis;
+package redis.copy;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * redis处理的初始类，主要放一些公共方法
- *
  * @author pxu31@qq.com
  * @date 2020/7/6 9:03
  */
@@ -21,11 +19,9 @@ public abstract class AbstractRedisCache {
     @Autowired
     protected StringRedisTemplate redisTemplate;
 
-    /**
-     *查看key是否失效
-     * @param key
-     * @return
-     */
+    @Autowired
+    protected CacheExceptionHandler cacheExceptionHandler;
+
     public boolean maybeExpired(String key) {
         try {
             Long expire = redisTemplate.getExpire(key, TimeUnit.SECONDS);
@@ -35,21 +31,10 @@ public abstract class AbstractRedisCache {
         }
     }
 
-    /**
-     * 查询剩余失效时间
-     * @param key
-     * @return
-     */
     public Long getExpired(String key) {
         return redisTemplate.getExpire(key);
     }
 
-    /**
-     * 设置失效时间
-     * @param key
-     * @param timeoutSeconds
-     * @return
-     */
     public boolean expired(String key, long timeoutSeconds) {
         try {
             Boolean expire = redisTemplate.expire(key, timeoutSeconds, TimeUnit.SECONDS);
@@ -63,11 +48,6 @@ public abstract class AbstractRedisCache {
         }
     }
 
-    /**
-     * 判断key是否存在
-     * @param key
-     * @return
-     */
     public boolean exists(String key) {
         try {
             return redisTemplate.hasKey(key);
@@ -76,12 +56,6 @@ public abstract class AbstractRedisCache {
         }
     }
 
-    /**
-     * 对key进行设置
-     * @param key
-     * @param value
-     * @param timeoutSeconds
-     */
     public void set(String key, String value, long timeoutSeconds) {
         try {
             redisTemplate.opsForValue().set(key, value, timeoutSeconds, TimeUnit.SECONDS);
@@ -90,23 +64,21 @@ public abstract class AbstractRedisCache {
         }
     }
 
-    /**
-     * 删除某一key
-     * @param key
-     */
     public void delete(String key) {
+        try {
             redisTemplate.expire(key, 1L, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            log.error("缓存异常", e);
+            cacheExceptionHandler.handle(e, key);
+        }
     }
 
-    /**
-     * 批量删除一些key
-     * @param keyList
-     */
     public void delete(List<String> keyList) {
         try {
             redisTemplate.delete(keyList);
         } catch (Exception e) {
             log.error("缓存异常", e);
+            cacheExceptionHandler.handle(e, keyList.toArray(new String[]{}));
         }
     }
 

@@ -15,13 +15,13 @@
         <dependency>
             <groupId>com.pxu</groupId>
             <artifactId>miaosha-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <!--扫描到common中的数据也需要配置此-->
         <dependency>
             <groupId>com.pxu</groupId>
             <artifactId>miaosha-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

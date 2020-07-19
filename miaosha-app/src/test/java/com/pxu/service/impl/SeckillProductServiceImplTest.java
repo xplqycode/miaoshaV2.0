@@ -80,7 +80,7 @@ public class SeckillProductServiceImplTest {
     @Test
     void testRedisInitOrIncr(){
         System.out.println(stringCache.get("foo"));
-        stringCache.initOrIncrement("pxytest", 1, 20);
+        stringCache.initOrIncrement("pxytest2", 1, 1);
         String pxutest = stringCache.get("pxutest");
         System.out.println(pxutest);
     }
