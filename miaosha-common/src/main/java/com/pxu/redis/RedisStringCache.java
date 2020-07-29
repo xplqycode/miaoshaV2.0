@@ -119,7 +119,8 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
     @Override
     public int getIntValue(String key) {
         try {
-            return Integer.valueOf(redisTemplate.opsForValue().get(key));
+            String value = redisTemplate.opsForValue().get(key);
+            return Integer.valueOf(value == null ? "-1" : value);
         } catch (Exception e) {
             log.error("缓存异常 key {} ", key, e);
         }
@@ -128,7 +129,7 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
 
     @Override
     public void initIntValue(String key, long expireSeconds) {
-        redisTemplate.opsForValue().set(key, "1", expireSeconds, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(key, "0", expireSeconds, TimeUnit.SECONDS);
     }
 
     @Override
