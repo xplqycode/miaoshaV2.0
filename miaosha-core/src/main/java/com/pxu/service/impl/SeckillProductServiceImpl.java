@@ -87,7 +87,7 @@ public class SeckillProductServiceImpl implements SeckillProductService {
     public List<SeckillProduct> hotListFromDb(int limit, long id) {
         Date now = new Date();
         //十五分钟以后
-        Date end = new Date(now.getTime() + DateTimeConstants.FIFTEEN_MINUTE_MILLISECOND);
+        Date end = new Date(now.getTime() + DateTimeConstants.FIVE_MINUTE_MILLISECOND);
 
         String timeStart = DateFormatUtils.format(now, DateTimeConstants.DEFAULT_FORMAT);
         String timeEnd = DateFormatUtils.format(end, DateTimeConstants.DEFAULT_FORMAT);

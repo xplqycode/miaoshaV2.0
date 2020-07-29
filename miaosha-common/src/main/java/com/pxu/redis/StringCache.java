@@ -42,6 +42,10 @@ public interface StringCache {
 
     String get(String key);
 
+    int getIntValue(String key);
+
+    void initIntValue(String key, long expireSeconds);
+
     /**
      * ????? todo
      * @param keyList

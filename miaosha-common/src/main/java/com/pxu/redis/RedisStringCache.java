@@ -87,6 +87,7 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
             return;
         }
         try {
+            //Increment an integer value stored as string value under {@code key} by {@code delta}
             redisTemplate.opsForValue().increment(key, i);
         } catch (Exception e) {
             log.error("缓存异常", e);
@@ -113,6 +114,21 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
             log.error("缓存异常 key {} ", key, e);
         }
         return null;
+    }
+
+    @Override
+    public int getIntValue(String key) {
+        try {
+            return Integer.valueOf(redisTemplate.opsForValue().get(key));
+        } catch (Exception e) {
+            log.error("缓存异常 key {} ", key, e);
+        }
+        return -1;
+    }
+
+    @Override
+    public void initIntValue(String key, long expireSeconds) {
+        redisTemplate.opsForValue().set(key, "1", expireSeconds, TimeUnit.SECONDS);
     }
 
     @Override

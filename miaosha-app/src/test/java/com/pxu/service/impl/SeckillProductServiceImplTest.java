@@ -79,13 +79,23 @@ public class SeckillProductServiceImplTest {
 
     @Test
     void testRedisInitOrIncr(){
+        stringCache.delete("foo");
+        stringCache.set("foo", "asd", 10);
         System.out.println(stringCache.get("foo"));
-        System.out.println(stringCache.initOrIncrement("pxytest2", 1L, 10));
-        System.out.println(stringCache.initOrIncrement("pxytest2", 1L, 10));
-        System.out.println(stringCache.initOrIncrement("pxytest2", 1L, 10));
-        System.out.println(stringCache.initOrIncrement("pxytest2", 1L, 10));
+        System.out.println(stringCache.initOrIncrement("pxytest2", 1L, 100));
+        System.out.println(stringCache.initOrIncrement("pxytest2", 1L, 100));
+        System.out.println(stringCache.initOrIncrement("pxytest2", 1L, 100));
+        System.out.println(stringCache.initOrIncrement("pxytest2", 1L, 1));
         String pxutest = stringCache.get("pxutest2");
-        System.out.println(pxutest);
+        System.out.println(stringCache.getExpired("pxutest2"));
+        System.out.println(stringCache.getExpired("pxuasdadtest2"));
+        System.out.println(stringCache.getExpired("foo"));
+
+
+        stringCache.set("xptest", "0", 100);
+        stringCache.increment("xptest", 2);
+        System.out.println(stringCache.getIntValue("xptest"));
+
     }
 
     @Test

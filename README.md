@@ -74,7 +74,21 @@ CREATE TABLE `seckill_user` (
   `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_id_userid` (`passport`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='秒杀成功明细表';
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='用户信息表';
+~~~
+
+- ip黑名单
+~~~sql
+CREATE TABLE `seckill_black_list` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(128) NOT NULL COMMENT 'ip地址',
+  `date_num` bigint(20) NOT NULL COMMENT '封禁日期',
+  `create_time` DATETIME NOT NULL,
+  `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_ip` (`ip`),
+  KEY `idx_date_num` (`date_num`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='ip黑名单表';
 ~~~
 
 - 一些sql脚本

@@ -35,5 +35,7 @@ public class DateTimeConstants {
 
     public final static int ONE_MINUTE_MILLISECOND = 60 * 1000;
 
+    public final static int FIVE_MINUTE_MILLISECOND = ONE_MINUTE_MILLISECOND * 5;
+
     public final static int FIFTEEN_MINUTE_MILLISECOND = ONE_MINUTE_MILLISECOND * 15;
 }

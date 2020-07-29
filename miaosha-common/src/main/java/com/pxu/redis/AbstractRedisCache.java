@@ -22,7 +22,7 @@ public abstract class AbstractRedisCache {
     protected StringRedisTemplate redisTemplate;
 
     /**
-     *查看key是否失效
+     *查看key是否失效或即将失效
      * @param key
      * @return
      */
