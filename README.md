@@ -13,7 +13,7 @@
 
 主要使用的技术: SpringBoot、SpringMVC、Mybatis-Plus、MySQL、Redis、Zookeeper、ElasticJob等
 
-所做完善或增加的新功能：
+**所做完善或增加的新功能：**
 
 - 对项目结构进行重构，逻辑分层更清楚
 - 基于SpringBoot、Mybatis-plus简化开发
@@ -23,13 +23,13 @@
 - redis进行ip过滤限流, 加入ip黑名单功能，定时解封， done(2020-07-29)
 - 引入消息队列削峰（todo）
 
-####系统模块分层
+**系统模块分层，使结构清晰，易于扩展：**
 - seckill-admin
 - seckill-app 主入口，对controller的处理逻辑
 - seckill-common 通用工具，比如redis
 - seckill-core 对数据进行的处理，主要使用的是mybatis-plus
 
-# 数据库表的设计
+## 3、数据库表的设计
 
 **秒杀系统的数据库的设计**
 以下为主要数据库表的设计，包括建立了一些合适的索引
