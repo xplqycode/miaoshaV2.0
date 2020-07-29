@@ -8,28 +8,32 @@
 
 **秒杀项目V1**介绍及其不足之处：
 
-介绍：基于Spring, Mybtis，MVC, MySQL，Redis开发的模拟高并发秒杀商城
+当时too_young，**代码的结构层次混乱，规范性不足，异常处理不完善，功能不全**
+此第二版本中，对以上问题进行完善
 
-当时too young
+主要使用的技术: SpringBoot、SpringMVC、Mybatis-Plus、MySQL、Redis、Zookeeper、ElasticJob等
 
-代码的规范性，异常处理等不够完善
+所做完善或增加的新功能：
 
-缺少登录模块
-
-**秒杀项目V2**所做完善：
-
-- 基于SpringBoot、Mybatis-plus简化开发
 - 对项目结构进行重构，逻辑分层更清楚
-- 增加代码规范性
-- 完善异常处理
-- 增加用户登录拦截，用户登录，用户注册功能
-- 基于Es-job开发定时任务进行缓存预热防止缓存雪崩
-- redis进行ip过滤限流（todo）
+- 基于SpringBoot、Mybatis-plus简化开发
+- 增加代码规范性，完善异常处理
+- 增加用户登录拦截，用户登录，用户注册功能, ,done(2020-07-25)
+- 基于Es-job开发定时任务进行缓存预热防止缓存雪崩,done(2020-07-25)
+- redis进行ip过滤限流, 加入ip黑名单功能，定时解封， done(2020-07-29)
 - 引入消息队列削峰（todo）
+
+####系统模块分层
+- seckill-admin
+- seckill-app 主入口，对controller的处理逻辑
+- seckill-common 通用工具，比如redis
+- seckill-core 对数据进行的处理，主要使用的是mybatis-plus
 
 # 数据库表的设计
 
 **秒杀系统的数据库的设计**
+以下为主要数据库表的设计，包括建立了一些合适的索引
+
 - 秒杀商品表
 ~~~sql
 CREATE TABLE `seckill_product` (
