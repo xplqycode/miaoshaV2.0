@@ -88,7 +88,7 @@ public class SeckillProductServiceImpl implements SeckillProductService {
         Date now = new Date();
         //十五分钟以后
         Date end = new Date(now.getTime() + DateTimeConstants.FIFTEEN_MINUTE_MILLISECOND);
-        
+
         String timeStart = DateFormatUtils.format(now, DateTimeConstants.DEFAULT_FORMAT);
         String timeEnd = DateFormatUtils.format(end, DateTimeConstants.DEFAULT_FORMAT);
 
