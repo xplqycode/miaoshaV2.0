@@ -72,8 +72,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                 log.info("ip：{}为异常秒杀ip，设置异常缓存表示位", ip);
                 stringCache.set(ipBlockKey, "1", ExpireTimeConstant.ONE_DAY_EXPIRETIME);
 
-                //超过限定次数了, 加入黑名单, 入库
+                //超过限定次数了, 加入黑名单, 入库，定时任务遍历来解封ip
+                //或者通过直接设置当天时间剩余s数为失效时间来禁某用户ip
                 //todo
+
                 throw new RequestLimitException("该ip秒杀超过限制次数");
             }
         }catch (Exception e){
