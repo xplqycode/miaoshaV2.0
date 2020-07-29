@@ -32,12 +32,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        log.info("我是拦截器");
-//        urlHandle(request, ExpireTimeConstant.TEN_SECOND_EXPIRETIME, 5);
-        throw new RequestLimitException("asdad");
+        try {
+            urlHandle(request, ExpireTimeConstant.TEN_SECOND_EXPIRETIME, 5);
+        } catch (Exception e) {
+            throw e;
+        }
+        return true;
     }
 
-    public void urlHandle(HttpServletRequest request, long limitTime, int limitCount) throws RequestLimitException {
+    public void urlHandle(HttpServletRequest request, long limitTime, int limitCount) throws Exception {
         try {
             String ip = IPAddressUtil.getClientIpAddress(request);
             String url = request.getRequestURL().toString();
@@ -54,33 +57,28 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             if (curCount == -1) {
                 //初始化限流的ipCountsKey
                 //，limitTime时间内限流
+                log.info("初始化待限流的key，失效时间为{}", limitTime);
                 stringCache.initIntValue(ipCountsKey, limitTime);
             }
 
             //防止即将过期时候
             if (!stringCache.maybeExpired(ipCountsKey)) {
                 stringCache.increment(ipCountsKey, 1);
+                log.info("加一次之后为{}", curCount + 1);
             }
 
             if (curCount + 1 > limitCount) {
                 //设置缓存ip黑名单标志位，失效时间设为1day，定时任务中，遍历前一天的dateNum，remove所有的标识位表示解封
+                log.info("ip：{}为异常秒杀ip，设置异常缓存表示位", ip);
                 stringCache.set(ipBlockKey, "1", ExpireTimeConstant.ONE_DAY_EXPIRETIME);
 
                 //超过限定次数了, 加入黑名单, 入库
                 //todo
                 throw new RequestLimitException("该ip秒杀超过限制次数");
             }
-
-        } catch (
-                RequestLimitException e)
-
-        {
+        }catch (Exception e){
             throw e;
-        } catch (
-                Exception e)
-
-        {
-            log.error("发生异常: ", e);
         }
+
     }
 }
