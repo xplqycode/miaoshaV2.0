@@ -23,7 +23,7 @@
     <job:simple id="NewCommentHotListJob"
                 class="com.pxu.job.LoadHotSeckillProducsJob"
                 registry-center-ref="esJobRegCenter"
-                cron="0 0/1 * * * ?"
+                cron="0 0/15 * * * ?"
                 sharding-total-count="1"
                 disabled="${es.job.disabled}"
                 overwrite="true"/>

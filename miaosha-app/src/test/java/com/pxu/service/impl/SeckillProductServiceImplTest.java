@@ -92,4 +92,14 @@ public class SeckillProductServiceImplTest {
     void testFindByRedisAndDb(){
         productService.findById(1000L);
     }
+
+    @Test
+    void hotList(){
+        List<SeckillProduct> seckillProducts = productService.hotListFromDb(2, -1);
+        log.info(JSONObject.toJSONString(seckillProducts));
+    }
+
+    @Test
+    void testRedis(){
+    }
 }

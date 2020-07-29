@@ -1,9 +1,7 @@
 package com.pxu.service;
 
 import com.pxu.domain.SeckillProduct;
-import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**处理数据库数据
@@ -31,4 +29,12 @@ public interface SeckillProductService {
      * @return
      */
     int reduceNumber(long seckillId);
+
+    /**
+     * 分页查询方法开始秒杀时间在十五分钟以内的热点商品信息
+     * @param limit
+     * @param id
+     * @return
+     */
+    List<SeckillProduct> hotListFromDb(int limit, long id);
 }
