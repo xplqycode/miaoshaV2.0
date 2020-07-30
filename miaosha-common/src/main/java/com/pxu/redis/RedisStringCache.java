@@ -1,5 +1,6 @@
 package com.pxu.redis;
 
+import com.baomidou.mybatisplus.toolkit.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.connection.StringRedisConnection;
@@ -7,6 +8,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -147,5 +149,14 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
     @Override
     public boolean zAdd(String key, String value, double score) {
         return redisTemplate.opsForZSet().add(key, value, score);
+    }
+
+    @Override
+    public List<String> getObjectIdKeyList(String key, long size) {
+        Set<String> objecIdSet = redisTemplate.opsForZSet().reverseRange(key, 0, size - 1);
+        if (CollectionUtils.isEmpty(objecIdSet)) {
+            return new ArrayList<>();
+        }
+        return objecIdSet.stream().collect(Collectors.toList());
     }
 }
