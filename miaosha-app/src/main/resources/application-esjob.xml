@@ -20,7 +20,7 @@
                    max-sleep-time-milliseconds="${es.job.zk.max.sleep.time}"
                    max-retries="${es.job.zk.max.retries}"/>
 
-    <job:simple id="NewCommentHotListJob"
+    <job:simple id="LoadHotSeckillProducsJob"
                 class="com.pxu.job.LoadHotSeckillProducsJob"
                 registry-center-ref="esJobRegCenter"
                 cron="0 0/5 * * * ?"
