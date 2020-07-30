@@ -53,29 +53,6 @@ public class SeckillProductServiceImpl implements SeckillProductService {
             return JSONObject.toJSONString(productFromDb);
         }, ExpireTimeConstant.ONE_MINUTE_EXPIRETIME));
         return JSONObject.parseObject(productJson, SeckillProduct.class);
-
-//        String productInfoJson = stringCache.get(SeckillRedisConstant.getSeckillKey(id));
-//        if (StringUtils.isEmpty(productInfoJson)) {
-//            log.info("未查到redis");
-//            SeckillProduct seckillProductFromDb = productsMapper.selectById(id);
-//            if (seckillProductFromDb != null) {
-//                log.info("数据库查到了");
-//                stringCache.set(SeckillRedisConstant.getSeckillKey(id), JSONObject.toJSONString(seckillProductFromDb), ExpireTimeConstant.ONE_MINUTE_EXPIRETIME);
-//                log.info("放进去redis");
-//                return seckillProductFromDb;
-//            }
-//            return null;
-//        }
-//
-//        SeckillProduct seckillProduct = null;
-//        try {
-//            log.info("redis查到了");
-//            seckillProduct = JSONObject.parseObject(productInfoJson, SeckillProduct.class);
-//        } catch (Exception e) {
-//            return null;
-//        }
-//
-//        return seckillProduct;
     }
 
     @Override
