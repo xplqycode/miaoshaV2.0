@@ -1,10 +1,12 @@
 package com.pxu.redis.impl;
 
+import com.baomidou.mybatisplus.toolkit.CollectionUtils;
 import com.pxu.redis.ZsetCache;
 import com.pxu.redis.base.AbstractRedisCache;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,5 +38,14 @@ public class RedisZsetCache extends AbstractRedisCache implements ZsetCache {
     @Override
     public Double getZsetScore(String key, String value) {
         return redisTemplate.opsForZSet().score(key, value);
+    }
+
+    @Override
+    public List<String> getObjectIdKeyList(String key, long size) {
+        Set<String> objecIdSet = redisTemplate.opsForZSet().reverseRange(key, 0, size - 1);
+        if (CollectionUtils.isEmpty(objecIdSet)) {
+            return new ArrayList<>();
+        }
+        return objecIdSet.stream().collect(Collectors.toList());
     }
 }

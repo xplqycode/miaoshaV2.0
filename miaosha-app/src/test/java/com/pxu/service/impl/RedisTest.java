@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pxu.WebApplication;
 import com.pxu.domain.SeckillProduct;
 import com.pxu.persistence.SeckillProductsMapper;
+import com.pxu.redis.impl.RedisListCache;
 import com.pxu.redis.impl.RedisObjectCache;
 import com.pxu.redis.impl.RedisStringKeyCache;
 import com.pxu.redis.impl.RedisZsetCache;
@@ -33,6 +34,9 @@ public class RedisTest {
 
     @Autowired
     RedisObjectCache objectCache;
+
+    @Autowired
+    RedisListCache listCache;
 
     @Autowired
     SeckillProductsMapper productsMapper;
@@ -72,13 +76,13 @@ public class RedisTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        stringCache.listRightPush("list", "1");
-        stringCache.listRightPush("list", "2");
-        stringCache.listRightPush("list", "3");
-        stringCache.listRightPush("list", "4");
+        listCache.rightPush("list", "1");
+        listCache.rightPush("list", "2");
+        listCache.rightPush("list", "3");
+        listCache.rightPush("list", "4");
         //1,2,3,4 然后1leftPop
-        System.out.println(stringCache.listLeftPop("list"));
-        System.out.println(stringCache.listRange("list").toString());
+        System.out.println(listCache.leftPop("list"));
+        System.out.println(listCache.getAll("list"));
     }
 
     @Test

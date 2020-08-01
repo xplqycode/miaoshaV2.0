@@ -1,5 +1,7 @@
 package com.pxu.redis;
 
+import java.util.List;
+
 /**
  * @author pxu31@qq.com
  * @date 2020/8/1 8:33
@@ -24,5 +26,7 @@ public interface ZsetCache {
     String getZsetFirstValue(String key);
 
     Double getZsetScore(String key, String value);
+
+    List<String> getObjectIdKeyList(String key, long size);
 
 }

@@ -52,6 +52,6 @@ public interface StringCache {
      */
     List<String> get(List<String> keyList);
 
-    List<String> getObjectIdKeyList(String key, long size);
+
 
 }

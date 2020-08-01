@@ -26,6 +26,7 @@ public class RedisStringKeyCache extends AbstractRedisCache implements StringCac
 
     /**
      * 直接封装好的一个方法，处理缓存和数据库的读取逻辑
+     *
      * @param key
      * @param handler
      * @return
@@ -147,26 +148,5 @@ public class RedisStringKeyCache extends AbstractRedisCache implements StringCac
             return null;
         });
         return valueList.stream().map(value -> (String) value).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<String> getObjectIdKeyList(String key, long size) {
-        Set<String> objecIdSet = redisTemplate.opsForZSet().reverseRange(key, 0, size - 1);
-        if (CollectionUtils.isEmpty(objecIdSet)) {
-            return new ArrayList<>();
-        }
-        return objecIdSet.stream().collect(Collectors.toList());
-    }
-
-    public long listRightPush(String key, String value) {
-        return redisTemplate.opsForList().rightPush(key, value);
-    }
-
-    public String listLeftPop(String key) {
-        return redisTemplate.opsForList().leftPop(key);
-    }
-
-    public List<String> listRange(String key) {
-        return redisTemplate.opsForList().range(key, 0, 1000);
     }
 }
