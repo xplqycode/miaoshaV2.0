@@ -14,6 +14,15 @@ public interface ZsetCache {
      */
     boolean zAdd(String key, String value, double score);
 
-    void zSetRemove(String key, String value);
+    void removeValue(String key, String value);
+
+    /**
+     * get first elem of zset from high to low
+     * @param key
+     * @return
+     */
+    String getZsetFirstValue(String key);
+
+    Double getZsetScore(String key, String value);
 
 }
