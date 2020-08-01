@@ -66,26 +66,4 @@ public class DelayQueueZset {
         zsetCache.removeValue(RedisDelayQueueUtil.DELAY_QUEUE_ZSET_KEY, delayQueueJodId);
     }
 
-    /**
-     *
-     * @param delayQueueJodId
-     */
-    public void finish(long delayQueueJodId) {
-        DelayQueueJob delayQueueJod = JobPool.getDelayQueueJobById(delayQueueJodId);
-        if (delayQueueJod == null) {
-            return;
-        }
-        JobPool.deleteDelayQueueJod(delayQueueJodId);
-        ScoredSortedItem item = new ScoredSortedItem(delayQueueJod.getId(), delayQueueJod.getDelayTime());
-        DelayBucket.deleteFormBucket(getFirstElem(delayQueueJod.getId()),item);
-    }
-
-    /**
-     * 查询delay job
-     * @param delayQueueJodId
-     * @return
-     */
-    public DelayQueueJob get(long delayQueueJodId) {
-        return JobPool.getDelayQueueJobById(delayQueueJodId);
-    }
 }

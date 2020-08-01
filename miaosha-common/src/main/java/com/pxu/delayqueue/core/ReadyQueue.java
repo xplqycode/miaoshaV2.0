@@ -1,6 +1,7 @@
 package com.pxu.delayqueue.core;
 
 
+import com.pxu.redis.impl.RedisListCache;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -8,19 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author pxu31@qq.com
  * @date 2020/7/31 20:17
  */
+
 public class ReadyQueue {
 
     @Autowired
-
+    RedisListCache listCache;
 
     /**
      * 添加jodid到准备队列
      * @param topic
      * @param delayQueueJodId
      */
-    public static void pushToReadyQueue(String topic,long delayQueueJodId) {
-        RBlockingQueue<Long> rBlockingQueue = RedissonUtils.getBlockingQueue(topic);
-        rBlockingQueue.offer(delayQueueJodId);
+    public void pushToReadyQueue(String topic, String delayQueueJodId) {
+        listCache.rightPush(topic, delayQueueJodId);
     }
 
     /**
@@ -28,8 +29,7 @@ public class ReadyQueue {
      * @param topic
      * @return
      */
-    public static Long pollFormReadyQueue(String topic) {
-        RBlockingQueue<Long> rBlockingQueue = RedissonUtils.getBlockingQueue(topic);
-        return rBlockingQueue.poll();
+    public String pollFormReadyQueue(String topic) {
+        return listCache.leftPop(topic);
     }
 }
