@@ -15,7 +15,6 @@ public class DelayQueueJob {
     /**
      * 延迟任务的唯一标识，用于检索任务
      */
-    //@JsonSerialize(using = ToStringSerializer.class)
     private String id;
 
     /**

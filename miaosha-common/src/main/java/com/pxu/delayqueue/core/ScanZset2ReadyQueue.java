@@ -1,7 +1,6 @@
 package com.pxu.delayqueue.core;
 
-import com.pxu.delayqueue.entity.DelayQueueJob;
-import com.pxu.delayqueue.entity.ScoredSortedItem;
+import com.pxu.delayqueue.entity.ZSetItem;
 import com.pxu.delayqueue.utils.RedisDelayQueueUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class ScanZset2ReadyQueue implements Runnable {
         while (true) {
             try {
                 //获取zset中第一个elem
-                ScoredSortedItem firstElem = delayQueueZset.getFirstElem();
+                ZSetItem firstElem = delayQueueZset.getFirstElem();
                 if(firstElem == null) {
                     sleep();
                     continue;

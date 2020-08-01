@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Data
 @AllArgsConstructor
-public class ScoredSortedItem {
+public class ZSetItem {
 
     /**
      * 延迟任务的唯一标识-value

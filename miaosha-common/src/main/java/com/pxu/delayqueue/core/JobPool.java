@@ -40,7 +40,6 @@ public class JobPool {
 
     /**
      * 删除 job
-     *
      * @param delayQueueJodId
      */
     public void deleteDelayQueueJod(String delayQueueJodId) {

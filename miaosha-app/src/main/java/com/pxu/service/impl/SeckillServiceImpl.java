@@ -1,5 +1,6 @@
 package com.pxu.service.impl;
 
+import com.pxu.delayqueue.core.DelayQueueZset;
 import com.pxu.domain.SeckillOrder;
 import com.pxu.domain.SeckillProduct;
 import com.pxu.dto.Exposer;
@@ -37,6 +38,9 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Autowired
     SeckillUserService userService;
+
+    @Autowired
+    DelayQueueZset queueZset;
 
     @Override
     public SeckillProduct findSeckillProduct(long id) {
@@ -84,7 +88,7 @@ public class SeckillServiceImpl implements SeckillService {
         try {
             // 记录购买行为
             // 唯一键：seckillId,userPhone
-            int insertCount = orderService.insertSuccessKilled(seckillId, userPhone + "");//todo 改手机号为passport
+            int insertCount = orderService.insertSuccessKilled(seckillId, userPhone + "");
             if (insertCount <= 0) {
                 // 重复秒杀
                 throw new RepeatKillException("seckill repeated");

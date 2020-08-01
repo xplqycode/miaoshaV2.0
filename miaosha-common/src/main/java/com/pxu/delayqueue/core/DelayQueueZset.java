@@ -1,7 +1,7 @@
 package com.pxu.delayqueue.core;
 
 import com.pxu.delayqueue.entity.DelayQueueJob;
-import com.pxu.delayqueue.entity.ScoredSortedItem;
+import com.pxu.delayqueue.entity.ZSetItem;
 import com.pxu.delayqueue.utils.RedisDelayQueueUtil;
 import com.pxu.redis.impl.RedisZsetCache;
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +25,14 @@ public class DelayQueueZset {
     /**
      * get first elem of zset from high to low
      */
-    public ScoredSortedItem getFirstElem() {
+    public ZSetItem getFirstElem() {
         String key = RedisDelayQueueUtil.DELAY_QUEUE_ZSET_KEY;
         String zsetFirstValue = zsetCache.getZsetFirstValue(key);
         if(zsetFirstValue == null){
             return null;
         }
         Double zsetScore = zsetCache.getZsetScore(key, zsetFirstValue);
-        return new ScoredSortedItem(zsetFirstValue, zsetScore);
+        return new ZSetItem(zsetFirstValue, zsetScore);
     }
 
     /**
