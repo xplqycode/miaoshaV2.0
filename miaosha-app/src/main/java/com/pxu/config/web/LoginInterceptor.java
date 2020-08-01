@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 登录拦截器
+ * 处理ip防刷
  */
 @Slf4j
 public class LoginInterceptor extends HandlerInterceptorAdapter {
