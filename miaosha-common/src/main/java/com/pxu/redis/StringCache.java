@@ -1,10 +1,9 @@
 package com.pxu.redis;
 
-import org.springframework.data.redis.core.ZSetOperations;
+import com.pxu.redis.base.StringDbLoadHandler;
+import com.pxu.redis.entity.SetParam;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author pxu31@qq.com
@@ -52,15 +51,6 @@ public interface StringCache {
      * @return
      */
     List<String> get(List<String> keyList);
-
-    /**
-     * 往sortedSet中添加元素，或者修改score，如果元素已经存在的话,则为修改其分数
-     * @param key
-     * @param value
-     * @param score
-     * @return
-     */
-    boolean zAdd(String key, String value, double score);
 
     List<String> getObjectIdKeyList(String key, long size);
 

@@ -2,19 +2,17 @@ package com.pxu.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pxu.WebApplication;
-import com.pxu.domain.SeckillOrder;
 import com.pxu.domain.SeckillProduct;
 import com.pxu.persistence.SeckillOrderMapper;
 import com.pxu.persistence.SeckillProductsMapper;
 import com.pxu.persistence.SeckillUserMapper;
-import com.pxu.redis.RedisStringCache;
+import com.pxu.redis.impl.RedisStringKeyCache;
 import com.pxu.service.SeckillProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,7 +27,7 @@ public class SeckillProductServiceImplTest {
     SeckillProductService productService;
 //
     @Autowired
-    RedisStringCache stringCache;
+RedisStringKeyCache stringCache;
 //    @Test
 //    void list() {
 //        System.out.println(productService);
@@ -100,7 +98,7 @@ public class SeckillProductServiceImplTest {
 
     @Test
     void testFindByRedisAndDb(){
-        productService.findById(1000L);
+        System.out.println(productService.findById(1000L));
     }
 
     @Test

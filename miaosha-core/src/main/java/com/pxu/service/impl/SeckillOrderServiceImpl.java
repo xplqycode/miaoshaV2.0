@@ -2,7 +2,7 @@ package com.pxu.service.impl;
 
 import com.pxu.domain.SeckillOrder;
 import com.pxu.persistence.SeckillOrderMapper;
-import com.pxu.redis.RedisStringCache;
+import com.pxu.redis.impl.RedisStringKeyCache;
 import com.pxu.service.SeckillOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -27,7 +27,7 @@ public class SeckillOrderServiceImpl implements SeckillOrderService {
     SeckillOrderMapper orderMapper;
 
     @Autowired
-    RedisStringCache stringCache;
+    RedisStringKeyCache stringCache;
 
     @Override
     public int insertSuccessKilled(long seckillId, String passport) {

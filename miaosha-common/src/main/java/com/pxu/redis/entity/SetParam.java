@@ -1,4 +1,4 @@
-package com.pxu.redis;
+package com.pxu.redis.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

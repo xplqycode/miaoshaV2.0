@@ -1,17 +1,18 @@
-package com.pxu.redis;
+package com.pxu.redis.impl;
 
 import com.baomidou.mybatisplus.toolkit.CollectionUtils;
+import com.pxu.redis.StringCache;
+import com.pxu.redis.ZsetCache;
+import com.pxu.redis.base.AbstractRedisCache;
+import com.pxu.redis.base.StringDbLoadHandler;
+import com.pxu.redis.entity.SetParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.connection.StringRedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Component
-public class RedisStringCache extends AbstractRedisCache implements StringCache {
+public class RedisStringKeyCache extends AbstractRedisCache implements StringCache {
 
     /**
      * 直接封装好的一个方法，处理缓存和数据库的读取逻辑
@@ -52,6 +53,7 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
 
     /**
      * 设置一个kv
+     *
      * @param key
      * @param value
      * @param timeoutSeconds
@@ -75,7 +77,8 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
                 StringRedisConnection conn = (StringRedisConnection) connection;
                 for (SetParam param : paramList) {
                     conn.set(param.getKey(), param.getValue());
-                    conn.expire(param.getKey(), param.getTimeoutSeconds());                }
+                    conn.expire(param.getKey(), param.getTimeoutSeconds());
+                }
                 return null;
             });
         } catch (Exception e) {
@@ -147,16 +150,23 @@ public class RedisStringCache extends AbstractRedisCache implements StringCache 
     }
 
     @Override
-    public boolean zAdd(String key, String value, double score) {
-        return redisTemplate.opsForZSet().add(key, value, score);
-    }
-
-    @Override
     public List<String> getObjectIdKeyList(String key, long size) {
         Set<String> objecIdSet = redisTemplate.opsForZSet().reverseRange(key, 0, size - 1);
         if (CollectionUtils.isEmpty(objecIdSet)) {
             return new ArrayList<>();
         }
         return objecIdSet.stream().collect(Collectors.toList());
+    }
+
+    public long listRightPush(String key, String value) {
+        return redisTemplate.opsForList().rightPush(key, value);
+    }
+
+    public String listLeftPop(String key) {
+        return redisTemplate.opsForList().leftPop(key);
+    }
+
+    public List<String> listRange(String key) {
+        return redisTemplate.opsForList().range(key, 0, 1000);
     }
 }

@@ -1,21 +1,15 @@
 package com.pxu.config.web;
 
-import com.alibaba.fastjson.JSONObject;
 import com.pxu.exception.RequestLimitException;
-import com.pxu.redis.RedisStringCache;
+import com.pxu.redis.impl.RedisStringKeyCache;
 import com.pxu.redis.constants.ExpireTimeConstant;
 import com.pxu.util.IPAddressUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.*;
 
 /**
  * 登录拦截器
@@ -28,7 +22,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     public static final String IP_BLOCKED = "ip_blocked_";
 
     @Autowired
-    RedisStringCache stringCache;
+    RedisStringKeyCache stringCache;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

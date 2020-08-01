@@ -1,6 +1,6 @@
 package com.pxu.config.web;
 
-import com.pxu.redis.RedisStringCache;
+import com.pxu.redis.impl.RedisStringKeyCache;
 import com.pxu.redis.constants.ExpireTimeConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class IpInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
-    RedisStringCache stringCache;
+    RedisStringKeyCache stringCache;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

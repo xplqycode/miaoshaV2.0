@@ -7,8 +7,8 @@ import com.pxu.constant.DateTimeConstants;
 import com.pxu.constant.SeckillRedisConstant;
 import com.pxu.domain.SeckillProduct;
 import com.pxu.persistence.SeckillProductsMapper;
-import com.pxu.redis.RedisStringCache;
-import com.pxu.redis.StringDbLoadHandler;
+import com.pxu.redis.impl.RedisStringKeyCache;
+import com.pxu.redis.base.StringDbLoadHandler;
 import com.pxu.redis.constants.ExpireTimeConstant;
 import com.pxu.service.SeckillProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class SeckillProductServiceImpl implements SeckillProductService {
 
 
     @Autowired
-    RedisStringCache stringCache;
+    RedisStringKeyCache stringCache;
 
     @Override
     public List<SeckillProduct> getAll() {

@@ -1,5 +1,6 @@
-package com.pxu.redis;
+package com.pxu.redis.base;
 
+import com.pxu.redis.Callback;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

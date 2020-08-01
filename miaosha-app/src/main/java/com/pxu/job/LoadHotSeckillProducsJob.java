@@ -7,7 +7,7 @@ import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.google.common.collect.Lists;
 import com.pxu.constant.SeckillRedisConstant;
 import com.pxu.domain.SeckillProduct;
-import com.pxu.redis.RedisStringCache;
+import com.pxu.redis.impl.RedisStringKeyCache;
 import com.pxu.redis.constants.ExpireTimeConstant;
 import com.pxu.service.SeckillProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class LoadHotSeckillProducsJob implements SimpleJob {
     SeckillProductService seckillProductService;
 
     @Autowired
-    RedisStringCache stringCache;
+    RedisStringKeyCache stringCache;
 
     @Override
     public void execute(ShardingContext shardingContext) {
