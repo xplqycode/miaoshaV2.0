@@ -20,7 +20,7 @@ public class JobPool {
     RedisObjectCache objectCache;
 
     /**
-     * 查询 DelayQueueJod
+     * 查询job
      * @param delayQueueJobId
      * @return
      */
@@ -30,7 +30,7 @@ public class JobPool {
     }
 
     /**
-     * 添加 DelayQueueJod
+     * 添加 job
      * @param delayQueueJob
      */
     public void addDelayQueueJod(DelayQueueJob delayQueueJob) {
@@ -39,7 +39,7 @@ public class JobPool {
     }
 
     /**
-     * 删除 DelayQueueJod
+     * 删除 job
      *
      * @param delayQueueJodId
      */

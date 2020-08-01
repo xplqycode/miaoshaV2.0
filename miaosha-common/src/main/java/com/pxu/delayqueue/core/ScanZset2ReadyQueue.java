@@ -2,7 +2,9 @@ package com.pxu.delayqueue.core;
 
 import com.pxu.delayqueue.entity.DelayQueueJob;
 import com.pxu.delayqueue.entity.ScoredSortedItem;
+import com.pxu.delayqueue.utils.RedisDelayQueueUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,60 +16,32 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class ScanZset2ReadyQueue implements Runnable {
 
-    private String delayBucketKey;
+    @Autowired
+    DelayQueueZset delayQueueZset;
 
-    public ScanZset2ReadyQueue(String delayBucketKey) {
-        this.delayBucketKey = delayBucketKey;
-    }
-
-    public String getDelayBucketKey() {
-        return delayBucketKey;
-    }
-
-    public void setDelayBucketKey(String delayBucketKey) {
-        this.delayBucketKey = delayBucketKey;
-    }
+    @Autowired ReadyQueue readyQueue;
 
     @Override
     public void run() {
         while (true) {
-//            try {
-//                //获取zset中的第一个元素
-//                ScoredSortedItem item = DelayBucket.getFromBucket(this.delayBucketKey);
-//                //没有任务
-//                if (item == null) {
-//                    sleep();
-//                    continue;
-//                }
-//                //延迟时间没到
-//                if (item.getDelayTime() > System.currentTimeMillis()) {
-//                    sleep();
-//                    continue;
-//                }
-//
-//                DelayQueueJob delayQueueJod = JobPool.getDelayQueueJobById(item.getDelayQueueJodId());
-//                //延迟任务元数据不存在
-//                if (delayQueueJod == null) {
-//                    DelayBucket.deleteFormBucket(this.delayBucketKey,item);
-//                    continue;
-//                }
-//
-//                //再次确认延时时间是否到了
-//                if (delayQueueJod.getDelayTime() > System.currentTimeMillis()) {
-//                    //删除旧的
-//                    DelayBucket.deleteFormBucket(this.delayBucketKey,item);
-//                    //重新计算延迟时间
-//                    DelayBucket.addToBucket(this.delayBucketKey,new ScoredSortedItem(delayQueueJod.getId(),delayQueueJod.getDelayTime()));
-//                } else {
-//                    ReadyQueue.pushToReadyQueue(delayQueueJod.getTopic(),delayQueueJod.getId());
-//                    DelayBucket.deleteFormBucket(this.delayBucketKey,item);
-//                }
-//
-//            }catch (Exception e) {
-//                log.error("扫描delaybucket出错：",e);
-//            }
+            try {
+                //获取zset中第一个elem
+                ScoredSortedItem firstElem = delayQueueZset.getFirstElem();
+                if(firstElem == null) {
+                    sleep();
+                    continue;
+                }
+                double delayTime = firstElem.getDelayTime();
+                if(delayTime < System.currentTimeMillis()){
+                    //删除zset中的key
+                    delayQueueZset.delete(firstElem.getDelayQueueJodId());
 
-
+                    //该任务到期了，加入到任务队列中
+                    readyQueue.pushToReadyQueue(RedisDelayQueueUtil.DELAY_QUEUE_LIST_KEY, firstElem.getDelayQueueJodId());
+                }
+            } catch (Exception e) {
+                log.error("此次扫描失败", e);
+            }
         }
     }
 

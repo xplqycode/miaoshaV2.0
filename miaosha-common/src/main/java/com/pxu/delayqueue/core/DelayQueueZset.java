@@ -6,6 +6,7 @@ import com.pxu.delayqueue.utils.RedisDelayQueueUtil;
 import com.pxu.redis.impl.RedisZsetCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @date 2020/7/31 20:17
  */
 @Slf4j
+@Component
 public class DelayQueueZset {
 
     @Autowired
@@ -23,7 +25,7 @@ public class DelayQueueZset {
     /**
      * get first elem of zset from high to low
      */
-    private ScoredSortedItem getFirstElem() {
+    public ScoredSortedItem getFirstElem() {
         String key = RedisDelayQueueUtil.DELAY_QUEUE_ZSET_KEY;
         String zsetFirstValue = zsetCache.getZsetFirstValue(key);
         if(zsetFirstValue == null){
@@ -34,28 +36,15 @@ public class DelayQueueZset {
     }
 
     /**
-     * 添加延迟任务到延迟队列
+     * 添加延迟任务到延迟队列, 加到zset中
      * @param delayQueueJob
      */
-    public void push(DelayQueueJob delayQueueJob) {
+    public void offer(DelayQueueJob delayQueueJob) {
+        if(delayQueueJob == null) {
+            return;
+        }
         String key = RedisDelayQueueUtil.DELAY_QUEUE_ZSET_KEY;
         zsetCache.zAdd(key, delayQueueJob.getId(), delayQueueJob.getDelayTime());
-    }
-
-    /**
-     * 获取准备好的延迟任务, 放到就绪队列中，并且删除zset中的key
-     */
-    public void popReadyJob() {
-        ScoredSortedItem firstElem = getFirstElem();
-        if(firstElem != null && firstElem.getDelayTime() < System.currentTimeMillis()){
-            //第一个任务到期了，将其放入就绪队列中
-
-
-
-            //删除zset中key
-            zsetCache.removeValue(RedisDelayQueueUtil.DELAY_QUEUE_ZSET_KEY, firstElem.getDelayQueueJodId());
-
-        }
     }
 
     /**
