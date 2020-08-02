@@ -15,6 +15,9 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
+
+import java.util.List;
 
 /**
  * @author pxu31@qq.com
@@ -101,5 +104,29 @@ public class RedisTest {
         SeckillProduct p2 = objectCache.getObject("p1", product.getClass());
         log.info(stringCache.get("p1"));
         log.info(p2.toString());
+    }
+
+    @Test
+    void testDbTORedis(){
+        Long start = System.currentTimeMillis();
+        //测试一下，将数据从redis读取加到缓存中的耗时
+        List<SeckillProduct> seckillProducts = productsMapper.selectList(null);
+        System.out.println(System.currentTimeMillis() - start);
+        for(SeckillProduct product : seckillProducts){
+            stringCache.set(product.getName(), JSONObject.toJSONString(product), 10);
+        }
+        System.out.println(System.currentTimeMillis() - start);
+    }
+
+    @Autowired
+    protected StringRedisTemplate redisTemplate;
+    @Test
+    void testLock(){
+        Runnable runnable = () -> {
+            System.out.println(111);
+            System.out.println(Thread.currentThread().getName());
+        };
+        new Thread(runnable).start();//创建了线程执行
+        runnable.run();//并没有创建线程
     }
 }
