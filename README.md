@@ -21,9 +21,10 @@
 - 【add】增加代码规范性，完善异常处理
 - 【add】增加用户登录拦截，用户登录，用户注册功能, done_90%(2020-07-25)
 - 【add】基于Es-job开发定时任务进行缓存预热防止缓存雪崩, done_100%(2020-07-25)
-- 【add】redis进行ip过滤限流, 加入ip黑名单功能，定时解封，done_100%(2020-07-29)
+- 【add】redis进行过滤限流防刷, 加入IP黑名单功能，定时解封，done_100%(2020-07-29)
 - 【add】基于Redis#zSet实现的延时队列，模拟下单后30分钟内未付款的，取消其订单, done_80%, 延时队列已经实现，尚未模拟使用（2020-08-01）
-- 【add】引入消息队列削峰（TODO）
+- 【add】引入消息队列削峰, 将请求处理放到消息队列中依次处理来削峰，但是也降低了用户体验。（TODO）
+- 【add】后端整体限流，使用计数器或者令牌桶（TODO）
 
 **系统模块分层，使结构清晰，易于扩展：**
 - seckill-admin 主要是登录校验（TODO）
@@ -62,18 +63,13 @@
 ## 4、部分优化具体分析
 ### 乐观锁
 悲观锁虽然可以解决超卖问题，但是加锁的时间可能会很长，会长时间的限制其他用户的访问，导致很多请求等待锁，卡死在这里，如果这种请求很多就会耗尽连接，系统出现异常。乐观锁默认不加锁，更失败就直接返回抢购失败，可以承受较高并发
-每个线程在检查库存的时候会拿到当前商品的乐观锁版本号，然后在扣库存时，如果版本号不对，就会扣减失败，抛出异常结束，这样每个版本号就只能有一个线程操作成功，其他相同版本号的线程秒杀失败，就不会存在卖超问题了
-
-~~~sql
-@Update("UPDATE stock SET count = count - 1, sale = sale + 1, version = version + 1 WHERE " +
-        "id = #{id, jdbcType = INTEGER} AND version = #{version, jdbcType = INTEGER}")
-~~~
+每个线程在校验库存的时候会拿到当前商品的乐观锁版本号，然后在扣库存时，如果版本号不对，就会扣减失败，抛出异常结束，这样每个版本号就只能有一个线程操作成功，其他相同版本号的线程秒杀失败，就不会存在卖超问题了
 
 ### Redis限流防刷
 项目采用了Redis限流，也就是计数器限流，因为其实现比较简单，统计每个ip每分钟访问次数，超过指定次数，加黑名单（可以记录数据库，也可以Redis中设置一个标识位），请求时直接查看是否为黑名单，然后是黑名单直接返回不做处理。
 
 ### 后端流量限流
-与以上防刷限流针对特定ip不同的是，后端流量限流为整体限流。
+与以上防刷限流针对特定ip不同的是，后端流量限流为整体限流。比如10件商品的秒杀，放1000个请求来秒杀下单是没有必要的。
 一些常见的限流算法：
 - 计数器算法：通过一个计数器 counter 来统计一段时间内请求的数量，并且在指定的时间之后重置计数器。该方法实现简单，但是有临界问题。例如，假设我们限流规则为每秒钟不超过 100 次接口请求，第一个 1s 时间窗口内，100 次接口请求都集中在最后的 10ms 内，在第二个 1s 的时间窗口内，100 次接口请求都集中在最开始的 10ms 内，虽然两个时间窗口内流量都符合限流要求，但是在这两个时间窗口临界的 20ms 内会集中有 200 次接口请求，如果不做限流，集中在这 20ms 内的 200 次请求就有可能压垮系统。 
 - 滑动窗口法：滑动窗口算法是计数器算法的一种改进，将原来的一个时间窗口划分成多个时间窗口，并且不断向右滑动该窗口。流量经过滑动时间窗口算法整形之后，可以保证任意时间窗口内，都不会超过最大允许的限流值，从流量曲线上来看会更加平滑，可以部分解决上面提到的临界突发流量问题。
@@ -87,15 +83,77 @@
 ### 缓存和数据一致性
 常见的策略是：先更新数据库，然后删除缓存。使用懒加载避免重复更新效率低下，且产生脏数据可能性小。
 但是在秒杀中，每次都删除缓存，因此导致多次缓存都不能命中，能命中缓存的次数很少，因此这种方案并不可取。会影响并发量。
-所以采用
+所以采用先更新数据库再更新缓存，扣库存使用的是乐观锁，操作成功才更新缓存。
 ### Redis缓存预热
 使用定时任务，每十五分钟扫描十五分钟内即将开始的商品信息放入缓存。
 可以使用Spring-Boot的注解实现@Scheduled(cron = "0/5 * * * * ?")，实际是基于quartz，或者基于分布式定时任务框架Es-Job来实现
 
 ### 如何发现热点数据
 ### 异步
+消息队列削峰，降低了用户体验，但是保证系统高并发下可用性。
 ### 负载均衡
-## 4、数据库表的设计
+单台服务器的处理性能是有瓶颈的，当并发量十分大时，无论怎么优化都满足不了需求，这时候就需要增加一台服务器分担原有服务器的访问压力，通过负载均衡服务器 Nginx 可以将来自用户的访问请求发到应用服务器集群中的任何一台机器
+
+Nginx 示例配置如下：
+
+在项目的配置文件 application.properties 中分别设置两个应用的端口号如 8888 和 9999 。
+
+server.port=8888
+server.port=9999
+然后进入nginx/conf文件目录将nginx.conf配置文件中的http部分修改为如下代码：
+~~~nginx
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    #                  '$status $body_bytes_sent "$http_referer" '
+    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+    #access_log  logs/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    upstream server_miaosha{
+        server 127.0.0.1:8888 weight=1;
+        server 127.0.0.1:9999 weight=1;
+    }
+
+    server {
+        listen  80;
+        server_name  localhost;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+
+        location / {
+            #root html;
+            #index index.html index.htm;
+            set $xheader $remote_addr;
+            if ( $http_x_forwarded_for != '' ){
+                set $xheader $http_x_forwarded_for;
+            }
+            proxy_set_header X-Real-IP $xheader;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_redirect off;
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_pass http://server_miaosha;
+        }
+
+        #error_page  404     /404.html;
+~~~
+权重weight可以根据个人需求进行设置，本文均设置为 1 ，表示访问 IP + 80 端口时两个应用按 1:1 进行轮询。
+
+## 5、数据库表的设计
 
 **秒杀系统的数据库的设计**
 以下为主要数据库表的设计，包括建立了一些**合适的索引**
@@ -176,15 +234,8 @@ TRUNCATE TABLE
 DELECT * FROM 
 ~~~
 
-**注意点**
-- NOT NULL的数据插入时不得为空，包括create_time
-
-## 一些坑：
-- springboot配置解析jsp视图，尚未学习模板技术，待完善
-   http://www.bjpowernode.com/tutorial_springboot/826.html
-
-
 ## 参考文章
 - [常见限流算法](https://gongfukangee.github.io/2019/04/04/Limit/)
+
 
 		
