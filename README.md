@@ -237,7 +237,7 @@ TRUNCATE TABLE
 DELECT * FROM 
 ~~~
 
-##6、 参考文章
+## 6、 参考文章
 - [常见限流算法](https://gongfukangee.github.io/2019/04/04/Limit/)
 - [crossoverjie：SSM(十八)秒杀架构实践](<https://crossoverjie.top/2018/05/07/ssm/SSM18-seconds-kill/>)
 - [秒杀系统优化方案（下）吐血整理](<https://www.cnblogs.com/xiangkejin/p/9351501.html>)
